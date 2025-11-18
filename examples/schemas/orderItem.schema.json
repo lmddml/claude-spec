@@ -1,0 +1,57 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "OrderItem",
+    "x-plural": "OrderItems",
+    "x-camel": "orderItem",
+    "x-camel-plural": "orderItems",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string",
+            "description": "Unique identifier for the order item",
+            "readOnly": true
+        },
+        "orderId": {
+            "type": "string",
+            "description": "Foreign key reference to Order"
+        },
+        "order": {
+            "$ref": "order.schema.json",
+            "description": "The complete order object",
+            "readOnly": true
+        },
+        "articleId": {
+            "type": ["string", "null"],
+            "description": "Foreign key reference to Article"
+        },
+        "article": {
+            "$ref": "article.schema.json",
+            "description": "The complete article object",
+            "readOnly": true
+        },
+        "name": {
+            "type": "string",
+            "description": "Item name (copied from article, can be overridden)"
+        },
+        "price": {
+            "type": ["number", "null"],
+            "minimum": 0,
+            "description": "Price per unit (copied from article, can be overridden)"
+        },
+        "unitId": {
+            "type": ["string", "null"],
+            "description": "Foreign key reference to Unit (copied from article, can be overridden)"
+        },
+        "unit": {
+            "$ref": "unit.schema.json",
+            "description": "The complete unit object",
+            "readOnly": true
+        },
+        "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Quantity ordered"
+        }
+    },
+    "required": ["id", "orderId"]
+}

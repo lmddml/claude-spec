@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Order",
+    "x-plural": "Orders",
+    "x-camel": "order",
+    "x-camel-plural": "orders",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string",
+            "description": "Unique identifier for the order",
+            "readOnly": true
+        },
+        "customerId": {
+            "type": "string",
+            "description": "Foreign key reference to Customer"
+        },
+        "customer": {
+            "$ref": "customer.schema.json",
+            "description": "The complete customer object",
+            "readOnly": true
+        },
+        "orderDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date and time when the order was placed"
+        },
+        "totalAmount": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Total order amount",
+            "readOnly": true
+        }
+    },
+    "required": ["id"]
+}
