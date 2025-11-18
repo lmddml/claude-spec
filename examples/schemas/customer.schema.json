@@ -14,7 +14,52 @@
         "firstName": {
             "type": "string",
             "description": "Customer's first name"
+        },
+        "lastName": {
+            "type": "string",
+            "description": "Customer's last name"
+        },
+        "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Customer's email address"
+        },
+        "phone": {
+            "type": "string",
+            "description": "Customer's phone number"
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the customer was created",
+            "readOnly": true
         }
     },
-    "required": ["id"]
+    "required": ["id"],
+    "examples": [
+        {
+            "id": "cust-001",
+            "firstName": "John",
+            "lastName": "Doe",
+            "email": "john.doe@example.com",
+            "phone": "+1-555-123-4567",
+            "createdAt": "2024-01-15T10:30:00Z"
+        },
+        {
+            "id": "cust-002",
+            "firstName": "Jane",
+            "lastName": "Smith",
+            "email": "jane.smith@example.com",
+            "phone": "+1-555-987-6543",
+            "createdAt": "2024-02-20T14:45:00Z"
+        },
+        {
+            "id": "cust-003",
+            "firstName": "Bob",
+            "lastName": "Johnson",
+            "email": "bob.johnson@example.com",
+            "phone": "+1-555-456-7890",
+            "createdAt": "2024-03-10T09:15:00Z"
+        }
+    ]
 }

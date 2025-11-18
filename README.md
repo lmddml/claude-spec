@@ -1,18 +1,18 @@
-# OpenAPI CRUD Generator
+# Claude Spec
 
-Generate OpenAPI 3.1 specifications from JSON Schema files. Define your schemas once, get complete CRUD API documentation automatically.
+Code generators for API specifications and servers. Define your schemas once, generate both OpenAPI documentation and Express.js servers automatically.
 
 ## Features
 
 - **JSON Schema as source of truth** - Define entities using standard JSON Schema
-- **Automatic CRUD generation** - LIST, GET, CREATE, UPDATE, DELETE endpoints
+- **OpenAPI 3.1 Generator** - Generate complete API documentation with CRUD endpoints
+- **Express.js v5 Generator** - Generate TypeScript servers with dummy data
+- **Example data support** - Include examples in schemas for realistic mock data
 - **Reference resolution** - `$ref` between schemas automatically converted
-- **Single schema approach** - Uses `readOnly` for input/output distinction
-- **OpenAPI 3.1** - Modern spec with full JSON Schema compatibility
 
 ## Quick Start
 
-### 1. Create JSON Schemas
+### 1. Create JSON Schemas with Examples
 
 Create schema files in a `schemas/` directory:
 
@@ -41,14 +41,21 @@ Create schema files in a `schemas/` directory:
             "description": "Customer name"
         }
     },
-    "required": ["id"]
+    "required": ["id"],
+    "examples": [
+        {
+            "id": "cust-001",
+            "email": "john@example.com",
+            "name": "John Doe"
+        }
+    ]
 }
 ```
 
 ### 2. Create Configuration
 
 ```javascript
-// config.js
+// examples/configs/openapi.config.js
 import { fileURLToPath } from 'url';
 import path from 'path';
 
@@ -59,14 +66,21 @@ export default {
   version: '1.0.0',
   description: 'REST API documentation',
   baseUrl: 'https://api.example.com/v1',
-  schemasDir: path.join(__dirname, 'schemas')
+  schemasDir: path.join(__dirname, '..', 'schemas')
 };
 ```
 
 ### 3. Generate
 
 ```bash
-node src/cli.js config.js -o openapi.json
+# Generate OpenAPI specification
+npm run generate:openapi
+
+# Generate Express.js server
+npm run generate:expressjs
+
+# Generate both
+npm run generate:all
 ```
 
 ## Installation
@@ -74,31 +88,74 @@ node src/cli.js config.js -o openapi.json
 ```bash
 git clone <repository-url>
 cd claude-spec
-npm install
 ```
 
 ## CLI Usage
 
-```
-openapi-crud-gen [options] <config-file>
-
-Options:
-  -c, --config <file>   Configuration file (required)
-  -o, --output <file>   Output file path (default: output/openapi.json)
-  -h, --help            Show help
-```
-
-### Examples
+### OpenAPI Generator
 
 ```bash
-# Generate with default output
-node src/cli.js config.js
+node generators/openapi/cli.js -c examples/configs/openapi.config.js -o output/specs/openapi.json
+```
 
-# Custom output path
-node src/cli.js -c config.js -o api-spec.json
+Options:
+- `-c, --config <file>` - Configuration file (required)
+- `-o, --output <file>` - Output file path
+- `-h, --help` - Show help
 
-# Run example
-npm run example
+### Express.js Generator
+
+```bash
+node generators/expressjs/cli.js -c examples/configs/expressjs.config.js -o output/server
+```
+
+Options:
+- `-c, --config <file>` - Configuration file (required)
+- `-o, --output <path>` - Output directory
+- `-h, --help` - Show help
+
+## npm Scripts
+
+```bash
+# Generate OpenAPI spec
+npm run generate:openapi
+
+# Generate Express.js server
+npm run generate:expressjs
+
+# Generate all
+npm run generate:all
+
+# Run OpenAPI example
+npm run example:openapi
+
+# Validate OpenAPI spec
+npm run validate
+```
+
+## Project Structure
+
+```
+claude-spec/
+├── generators/
+│   ├── openapi/           # OpenAPI 3.1 generator
+│   │   ├── generator.js
+│   │   ├── index.js
+│   │   └── cli.js
+│   └── expressjs/         # Express.js v5 TypeScript generator
+│       ├── generator.js
+│       ├── index.js
+│       └── cli.js
+├── examples/
+│   ├── schemas/           # Example JSON schemas with examples
+│   └── configs/           # Example configurations
+├── output/
+│   ├── specs/             # Generated OpenAPI specs
+│   ├── server/            # Generated Express.js server
+│   └── client/            # Future client code
+├── scripts/
+│   └── validate.js        # OpenAPI validator
+└── docs/                  # Documentation
 ```
 
 ## Schema Conventions
@@ -119,8 +176,24 @@ Each schema must include naming variants:
 These control:
 - `title` - Schema name in components
 - `x-plural` - Tag name
-- `x-camel` - Singular in descriptions ("Create a new orderItem")
+- `x-camel` - Singular in descriptions
 - `x-camel-plural` - URL path (`/orderItems`)
+
+### Example Data
+
+Include examples for generated mock data:
+
+```json
+{
+    "examples": [
+        {
+            "id": "item-001",
+            "name": "Product Name",
+            "price": 29.99
+        }
+    ]
+}
+```
 
 ### ReadOnly Fields
 
@@ -158,35 +231,68 @@ Reference related entities:
 }
 ```
 
-### Nullable Fields
-
-```json
-{
-    "middleName": {
-        "type": ["string", "null"],
-        "description": "Optional middle name"
-    }
-}
-```
-
 ## Generated Output
 
-For each schema, the generator creates:
+### OpenAPI Generator
 
-### Endpoints
-
+For each schema, generates:
 - `GET /{resources}` - List with pagination
 - `POST /{resources}` - Create new
 - `GET /{resources}/{id}` - Get by ID
 - `PUT /{resources}/{id}` - Update
 - `DELETE /{resources}/{id}` - Delete
 
-### Components
+### Express.js Generator
 
-Schemas are copied directly to `components/schemas` with:
-- `$ref` paths converted to OpenAPI format
-- `$schema` removed
-- All other properties preserved
+Generates a complete TypeScript project:
+- `src/app.ts` - Main Express application
+- `src/types/index.ts` - TypeScript interfaces
+- `src/routes/*.ts` - CRUD routers with in-memory data
+- `package.json` - Dependencies (Express v5)
+- `tsconfig.json` - TypeScript configuration
+
+To run the generated server:
+```bash
+cd output/server
+npm install
+npm run dev
+```
+
+## Programmatic Usage
+
+### OpenAPI Generator
+
+```javascript
+import { generateOpenAPI, generateAndSave } from './generators/openapi/index.js';
+
+// Generate spec object
+const spec = await generateOpenAPI({
+  title: 'My API',
+  version: '1.0.0',
+  baseUrl: 'https://api.example.com',
+  schemasDir: './schemas'
+});
+
+// Generate and save to file
+await generateAndSave(config, 'output/specs/openapi.json');
+```
+
+### Express.js Generator
+
+```javascript
+import { generateExpress, generateAndSave } from './generators/expressjs/index.js';
+
+// Generate files
+const files = await generateExpress({
+  title: 'My API',
+  version: '1.0.0',
+  port: 3000,
+  schemasDir: './schemas'
+});
+
+// Generate and save to directory
+await generateAndSave(config, 'output/server');
+```
 
 ## Validation
 
@@ -200,45 +306,6 @@ Validate output:
 
 ```bash
 npm run validate
-# or
-npm run validate output/openapi.json
-```
-
-## Project Structure
-
-```
-claude-spec/
-├── src/
-│   ├── generator.js    # Core generation logic
-│   ├── index.js        # Main exports
-│   └── cli.js          # CLI tool
-├── examples/
-│   ├── config.js       # Example configuration
-│   └── schemas/        # Example JSON schemas
-├── scripts/
-│   └── validate.js     # OpenAPI validator
-├── docs/
-│   ├── SCHEMA-CONVENTIONS.md
-│   ├── YAML-OUTPUT-RESTORATION.md
-│   └── ROADMAP.md
-└── output/             # Generated specs
-```
-
-## Programmatic Usage
-
-```javascript
-import { generateOpenAPI, generateAndSave } from './src/index.js';
-
-// Generate spec object
-const spec = await generateOpenAPI({
-  title: 'My API',
-  version: '1.0.0',
-  baseUrl: 'https://api.example.com',
-  schemasDir: './schemas'
-});
-
-// Generate and save to file
-await generateAndSave(config, 'output/openapi.json');
 ```
 
 ## License

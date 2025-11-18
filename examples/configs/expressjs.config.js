@@ -1,5 +1,5 @@
 /**
- * Example configuration for OpenAPI CRUD Generator
+ * Example configuration for Express.js CRUD Generator
  *
  * This file contains API metadata and points to the schemas directory.
  * JSON Schema files in the schemas directory define the API resources.
@@ -16,8 +16,11 @@ export default {
   title: 'Order Management API',
   version: '1.0.0',
   description: 'RESTful API for managing customers, orders, and articles',
-  baseUrl: 'https://api.example.com/v1',
+  port: 3000,
+
+  // Package configuration
+  packageName: 'order-management-api',
 
   // Path to JSON Schema files
-  schemasDir: path.join(__dirname, 'schemas')
+  schemasDir: path.join(__dirname, '..', 'schemas')
 };

@@ -14,7 +14,33 @@
         "unitNumber": {
             "type": "string",
             "description": "Unit number or name"
+        },
+        "description": {
+            "type": "string",
+            "description": "Description of the unit"
         }
     },
-    "required": ["id"]
+    "required": ["id"],
+    "examples": [
+        {
+            "id": "unit-001",
+            "unitNumber": "pcs",
+            "description": "Pieces"
+        },
+        {
+            "id": "unit-002",
+            "unitNumber": "kg",
+            "description": "Kilograms"
+        },
+        {
+            "id": "unit-003",
+            "unitNumber": "ltr",
+            "description": "Liters"
+        },
+        {
+            "id": "unit-004",
+            "unitNumber": "box",
+            "description": "Box"
+        }
+    ]
 }

@@ -51,7 +51,86 @@
             "type": "integer",
             "minimum": 1,
             "description": "Quantity ordered"
+        },
+        "lineTotal": {
+            "type": "number",
+            "description": "Total for this line item (price * quantity)",
+            "readOnly": true
         }
     },
-    "required": ["id", "orderId"]
+    "required": ["id", "orderId"],
+    "examples": [
+        {
+            "id": "item-001",
+            "orderId": "ord-001",
+            "articleId": "art-001",
+            "article": {
+                "id": "art-001",
+                "name": "Wireless Mouse",
+                "description": "Ergonomic wireless mouse with USB receiver",
+                "price": 29.99,
+                "unitId": "unit-001",
+                "sku": "MOUSE-WL-001",
+                "inStock": true
+            },
+            "name": "Wireless Mouse",
+            "price": 29.99,
+            "unitId": "unit-001",
+            "unit": {
+                "id": "unit-001",
+                "unitNumber": "pcs",
+                "description": "Pieces"
+            },
+            "quantity": 2,
+            "lineTotal": 59.98
+        },
+        {
+            "id": "item-002",
+            "orderId": "ord-001",
+            "articleId": "art-003",
+            "article": {
+                "id": "art-003",
+                "name": "Mechanical Keyboard",
+                "description": "RGB mechanical keyboard with blue switches",
+                "price": 89.99,
+                "unitId": "unit-001",
+                "sku": "KB-MECH-RGB",
+                "inStock": false
+            },
+            "name": "Mechanical Keyboard",
+            "price": 89.99,
+            "unitId": "unit-001",
+            "unit": {
+                "id": "unit-001",
+                "unitNumber": "pcs",
+                "description": "Pieces"
+            },
+            "quantity": 1,
+            "lineTotal": 89.99
+        },
+        {
+            "id": "item-003",
+            "orderId": "ord-003",
+            "articleId": "art-002",
+            "article": {
+                "id": "art-002",
+                "name": "USB-C Cable",
+                "description": "1m USB-C to USB-C charging cable",
+                "price": 12.99,
+                "unitId": "unit-001",
+                "sku": "CABLE-USBC-1M",
+                "inStock": true
+            },
+            "name": "USB-C Cable",
+            "price": 12.99,
+            "unitId": "unit-001",
+            "unit": {
+                "id": "unit-001",
+                "unitNumber": "pcs",
+                "description": "Pieces"
+            },
+            "quantity": 2,
+            "lineTotal": 25.98
+        }
+    ]
 }

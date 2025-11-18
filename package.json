@@ -1,25 +1,28 @@
 {
-  "name": "openapi-crud-generator",
+  "name": "claude-spec",
   "version": "1.0.0",
-  "description": "Generate OpenAPI specifications from simple CRUD endpoint definitions",
-  "main": "src/index.js",
+  "description": "Code generators for API specifications and servers",
+  "main": "generators/openapi/index.js",
   "type": "module",
   "bin": {
-    "openapi-crud-gen": "./src/cli.js"
+    "openapi-gen": "./generators/openapi/cli.js",
+    "expressjs-gen": "./generators/expressjs/cli.js"
   },
   "scripts": {
-    "start": "node src/cli.js",
-    "generate": "node src/cli.js",
-    "example": "node examples/generate-example.js",
+    "generate:openapi": "node generators/openapi/cli.js -c examples/configs/openapi.config.js -o output/specs/openapi.json",
+    "generate:expressjs": "node generators/expressjs/cli.js -c examples/configs/expressjs.config.js -o output/server",
+    "generate:all": "npm run generate:openapi && npm run generate:expressjs",
+    "example:openapi": "node examples/generate-example.js",
     "validate": "node scripts/validate.js"
   },
   "keywords": [
     "openapi",
+    "expressjs",
     "crud",
     "generator",
     "api",
     "specification",
-    "swagger"
+    "typescript"
   ],
   "author": "",
   "license": "MIT",

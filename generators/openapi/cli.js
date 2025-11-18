@@ -70,7 +70,7 @@ async function main() {
 
     // Default output path
     if (!options.output) {
-      options.output = path.join(process.cwd(), 'output', 'openapi.json');
+      options.output = path.join(process.cwd(), 'output', 'specs', 'openapi.json');
     }
 
     console.log('Loading configuration...');

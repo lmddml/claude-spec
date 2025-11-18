@@ -15,6 +15,10 @@
             "type": "string",
             "description": "Article name"
         },
+        "description": {
+            "type": "string",
+            "description": "Article description"
+        },
         "price": {
             "type": "number",
             "minimum": 0,
@@ -28,7 +32,60 @@
             "$ref": "unit.schema.json",
             "description": "The complete unit object",
             "readOnly": true
+        },
+        "sku": {
+            "type": "string",
+            "description": "Stock keeping unit code"
+        },
+        "inStock": {
+            "type": "boolean",
+            "description": "Whether the article is in stock",
+            "default": true
         }
     },
-    "required": ["id"]
+    "required": ["id"],
+    "examples": [
+        {
+            "id": "art-001",
+            "name": "Wireless Mouse",
+            "description": "Ergonomic wireless mouse with USB receiver",
+            "price": 29.99,
+            "unitId": "unit-001",
+            "unit": {
+                "id": "unit-001",
+                "unitNumber": "pcs",
+                "description": "Pieces"
+            },
+            "sku": "MOUSE-WL-001",
+            "inStock": true
+        },
+        {
+            "id": "art-002",
+            "name": "USB-C Cable",
+            "description": "1m USB-C to USB-C charging cable",
+            "price": 12.99,
+            "unitId": "unit-001",
+            "unit": {
+                "id": "unit-001",
+                "unitNumber": "pcs",
+                "description": "Pieces"
+            },
+            "sku": "CABLE-USBC-1M",
+            "inStock": true
+        },
+        {
+            "id": "art-003",
+            "name": "Mechanical Keyboard",
+            "description": "RGB mechanical keyboard with blue switches",
+            "price": 89.99,
+            "unitId": "unit-001",
+            "unit": {
+                "id": "unit-001",
+                "unitNumber": "pcs",
+                "description": "Pieces"
+            },
+            "sku": "KB-MECH-RGB",
+            "inStock": false
+        }
+    ]
 }
