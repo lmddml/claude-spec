@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node src/cli.js",
     "generate": "node src/cli.js",
-    "example": "node examples/generate-example.js"
+    "example": "node examples/generate-example.js",
+    "validate": "node scripts/validate.js"
   },
   "keywords": [
     "openapi",
