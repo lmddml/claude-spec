@@ -14,8 +14,7 @@ function parseArgs() {
   const args = process.argv.slice(2);
   const options = {
     config: null,
-    output: null,
-    format: 'yaml'
+    output: null
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -25,8 +24,6 @@ function parseArgs() {
       options.config = args[++i];
     } else if (arg === '-o' || arg === '--output') {
       options.output = args[++i];
-    } else if (arg === '-f' || arg === '--format') {
-      options.format = args[++i];
     } else if (arg === '-h' || arg === '--help') {
       printHelp();
       process.exit(0);
@@ -49,14 +46,12 @@ Usage: openapi-crud-gen [options] <config-file>
 
 Options:
   -c, --config <file>   Configuration file (required)
-  -o, --output <file>   Output file path (default: output/openapi.yaml)
-  -f, --format <type>   Output format: json or yaml (default: yaml)
+  -o, --output <file>   Output file path (default: output/openapi.json)
   -h, --help           Show this help message
 
 Examples:
   openapi-crud-gen config.js
-  openapi-crud-gen -c config.js -o api-spec.yaml
-  openapi-crud-gen -c config.js -o api-spec.json -f json
+  openapi-crud-gen -c config.js -o api-spec.json
   `);
 }
 
@@ -75,18 +70,18 @@ async function main() {
 
     // Default output path
     if (!options.output) {
-      options.output = path.join(process.cwd(), 'output', `openapi.${options.format === 'json' ? 'json' : 'yaml'}`);
+      options.output = path.join(process.cwd(), 'output', 'openapi.json');
     }
 
     console.log('Loading configuration...');
     const config = await loadConfig(options.config);
 
     console.log('Generating OpenAPI specification...');
-    await generateAndSave(config, options.output, options.format);
+    await generateAndSave(config, options.output);
 
-    console.log('\n✓ Done!');
+    console.log('\nDone!');
   } catch (error) {
-    console.error('\n✗ Error:', error.message);
+    console.error('\nError:', error.message);
     process.exit(1);
   }
 }

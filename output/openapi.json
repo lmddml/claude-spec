@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "My Application API",
+    "title": "Order Management API",
     "version": "1.0.0",
-    "description": "RESTful API for managing users, products, and orders"
+    "description": "RESTful API for managing customers, orders, and articles"
   },
   "servers": [
     {
@@ -12,11 +12,11 @@
     }
   ],
   "paths": {
-    "/users": {
+    "/articles": {
       "get": {
-        "summary": "List all users",
+        "summary": "List all articles",
         "tags": [
-          "users"
+          "Articles"
         ],
         "parameters": [
           {
@@ -40,7 +40,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of users",
+            "description": "List of articles",
             "content": {
               "application/json": {
                 "schema": {
@@ -49,7 +49,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/user"
+                        "$ref": "#/components/schemas/Article"
                       }
                     },
                     "total": {
@@ -69,27 +69,27 @@
         }
       },
       "post": {
-        "summary": "Create a new user",
+        "summary": "Create a new article",
         "tags": [
-          "users"
+          "Articles"
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/userInput"
+                "$ref": "#/components/schemas/Article"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "user created successfully",
+            "description": "Article created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/user"
+                  "$ref": "#/components/schemas/Article"
                 }
               }
             }
@@ -100,11 +100,11 @@
         }
       }
     },
-    "/users/{id}": {
+    "/articles/{id}": {
       "get": {
-        "summary": "Get a user by ID",
+        "summary": "Get a article by ID",
         "tags": [
-          "users"
+          "Articles"
         ],
         "parameters": [
           {
@@ -114,16 +114,16 @@
             "schema": {
               "type": "string"
             },
-            "description": "user ID"
+            "description": "Article ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "user details",
+            "description": "Article details",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/user"
+                  "$ref": "#/components/schemas/Article"
                 }
               }
             }
@@ -134,9 +134,9 @@
         }
       },
       "put": {
-        "summary": "Update a user",
+        "summary": "Update a article",
         "tags": [
-          "users"
+          "Articles"
         ],
         "parameters": [
           {
@@ -146,7 +146,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "user ID"
+            "description": "Article ID"
           }
         ],
         "requestBody": {
@@ -154,18 +154,18 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/userInput"
+                "$ref": "#/components/schemas/Article"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "user updated successfully",
+            "description": "Article updated successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/user"
+                  "$ref": "#/components/schemas/Article"
                 }
               }
             }
@@ -179,9 +179,9 @@
         }
       },
       "delete": {
-        "summary": "Delete a user",
+        "summary": "Delete a article",
         "tags": [
-          "users"
+          "Articles"
         ],
         "parameters": [
           {
@@ -191,12 +191,12 @@
             "schema": {
               "type": "string"
             },
-            "description": "user ID"
+            "description": "Article ID"
           }
         ],
         "responses": {
           "204": {
-            "description": "user deleted successfully"
+            "description": "Article deleted successfully"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -204,11 +204,11 @@
         }
       }
     },
-    "/products": {
+    "/customers": {
       "get": {
-        "summary": "List all products",
+        "summary": "List all customers",
         "tags": [
-          "products"
+          "Customers"
         ],
         "parameters": [
           {
@@ -232,7 +232,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of products",
+            "description": "List of customers",
             "content": {
               "application/json": {
                 "schema": {
@@ -241,7 +241,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/product"
+                        "$ref": "#/components/schemas/Customer"
                       }
                     },
                     "total": {
@@ -261,27 +261,27 @@
         }
       },
       "post": {
-        "summary": "Create a new product",
+        "summary": "Create a new customer",
         "tags": [
-          "products"
+          "Customers"
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/productInput"
+                "$ref": "#/components/schemas/Customer"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "product created successfully",
+            "description": "Customer created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/product"
+                  "$ref": "#/components/schemas/Customer"
                 }
               }
             }
@@ -292,11 +292,11 @@
         }
       }
     },
-    "/products/{id}": {
+    "/customers/{id}": {
       "get": {
-        "summary": "Get a product by ID",
+        "summary": "Get a customer by ID",
         "tags": [
-          "products"
+          "Customers"
         ],
         "parameters": [
           {
@@ -306,16 +306,16 @@
             "schema": {
               "type": "string"
             },
-            "description": "product ID"
+            "description": "Customer ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "product details",
+            "description": "Customer details",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/product"
+                  "$ref": "#/components/schemas/Customer"
                 }
               }
             }
@@ -326,9 +326,9 @@
         }
       },
       "put": {
-        "summary": "Update a product",
+        "summary": "Update a customer",
         "tags": [
-          "products"
+          "Customers"
         ],
         "parameters": [
           {
@@ -338,7 +338,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "product ID"
+            "description": "Customer ID"
           }
         ],
         "requestBody": {
@@ -346,18 +346,18 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/productInput"
+                "$ref": "#/components/schemas/Customer"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "product updated successfully",
+            "description": "Customer updated successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/product"
+                  "$ref": "#/components/schemas/Customer"
                 }
               }
             }
@@ -371,9 +371,9 @@
         }
       },
       "delete": {
-        "summary": "Delete a product",
+        "summary": "Delete a customer",
         "tags": [
-          "products"
+          "Customers"
         ],
         "parameters": [
           {
@@ -383,12 +383,12 @@
             "schema": {
               "type": "string"
             },
-            "description": "product ID"
+            "description": "Customer ID"
           }
         ],
         "responses": {
           "204": {
-            "description": "product deleted successfully"
+            "description": "Customer deleted successfully"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -400,7 +400,7 @@
       "get": {
         "summary": "List all orders",
         "tags": [
-          "orders"
+          "Orders"
         ],
         "parameters": [
           {
@@ -433,7 +433,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/order"
+                        "$ref": "#/components/schemas/Order"
                       }
                     },
                     "total": {
@@ -455,25 +455,25 @@
       "post": {
         "summary": "Create a new order",
         "tags": [
-          "orders"
+          "Orders"
         ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/orderInput"
+                "$ref": "#/components/schemas/Order"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "order created successfully",
+            "description": "Order created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/order"
+                  "$ref": "#/components/schemas/Order"
                 }
               }
             }
@@ -488,7 +488,7 @@
       "get": {
         "summary": "Get a order by ID",
         "tags": [
-          "orders"
+          "Orders"
         ],
         "parameters": [
           {
@@ -498,19 +498,473 @@
             "schema": {
               "type": "string"
             },
-            "description": "order ID"
+            "description": "Order ID"
           }
         ],
         "responses": {
           "200": {
-            "description": "order details",
+            "description": "Order details",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/order"
+                  "$ref": "#/components/schemas/Order"
                 }
               }
             }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a order",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Order ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a order",
+        "tags": [
+          "Orders"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Order ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Order deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/orderItems": {
+      "get": {
+        "summary": "List all orderItems",
+        "tags": [
+          "OrderItems"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of orderItems",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/OrderItem"
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    },
+                    "page": {
+                      "type": "integer"
+                    },
+                    "limit": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new orderItem",
+        "tags": [
+          "OrderItems"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OrderItem created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      }
+    },
+    "/orderItems/{id}": {
+      "get": {
+        "summary": "Get a orderItem by ID",
+        "tags": [
+          "OrderItems"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "OrderItem ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OrderItem details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderItem"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a orderItem",
+        "tags": [
+          "OrderItems"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "OrderItem ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderItem"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OrderItem updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderItem"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a orderItem",
+        "tags": [
+          "OrderItems"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "OrderItem ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OrderItem deleted successfully"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/units": {
+      "get": {
+        "summary": "List all units",
+        "tags": [
+          "Units"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of units",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Unit"
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    },
+                    "page": {
+                      "type": "integer"
+                    },
+                    "limit": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new unit",
+        "tags": [
+          "Units"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Unit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Unit created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          }
+        }
+      }
+    },
+    "/units/{id}": {
+      "get": {
+        "summary": "Get a unit by ID",
+        "tags": [
+          "Units"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unit ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unit details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a unit",
+        "tags": [
+          "Units"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unit ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Unit"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Unit updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unit"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a unit",
+        "tags": [
+          "Units"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unit ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Unit deleted successfully"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -521,356 +975,189 @@
   },
   "components": {
     "schemas": {
-      "user": {
+      "Article": {
+        "title": "Article",
+        "x-plural": "Articles",
+        "x-camel": "article",
+        "x-camel-plural": "articles",
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid",
-            "description": "Unique identifier",
-            "example": "123e4567-e89b-12d3-a456-426614174000"
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "description": "User email address",
-            "example": "user@example.com"
-          },
-          "firstName": {
-            "type": "string",
-            "description": "User first name",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "description": "User last name",
-            "example": "Doe"
-          },
-          "age": {
-            "type": "integer",
-            "description": "User age",
-            "example": 30
-          },
-          "role": {
-            "type": "string",
-            "description": "User role",
-            "example": "user",
-            "enum": [
-              "admin",
-              "user",
-              "guest"
-            ]
-          },
-          "isActive": {
-            "type": "boolean",
-            "description": "Whether the user account is active",
-            "example": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Account creation timestamp",
-            "example": "2024-01-15T10:30:00Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Last update timestamp",
-            "example": "2024-01-20T14:45:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "email",
-          "firstName",
-          "lastName",
-          "role",
-          "createdAt",
-          "updatedAt"
-        ]
-      },
-      "userInput": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "format": "email",
-            "description": "User email address",
-            "example": "user@example.com"
-          },
-          "firstName": {
-            "type": "string",
-            "description": "User first name",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "description": "User last name",
-            "example": "Doe"
-          },
-          "age": {
-            "type": "integer",
-            "description": "User age",
-            "example": 30
-          },
-          "role": {
-            "type": "string",
-            "description": "User role",
-            "example": "user",
-            "enum": [
-              "admin",
-              "user",
-              "guest"
-            ]
-          },
-          "isActive": {
-            "type": "boolean",
-            "description": "Whether the user account is active",
-            "example": true
-          }
-        },
-        "required": [
-          "email",
-          "firstName",
-          "lastName",
-          "role"
-        ]
-      },
-      "product": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Product ID",
-            "example": "987fcdeb-51a2-43f1-b456-123456789012"
+            "description": "Unique identifier for the article",
+            "readOnly": true
           },
           "name": {
             "type": "string",
-            "description": "Product name",
-            "example": "Premium Widget"
-          },
-          "description": {
-            "type": "string",
-            "description": "Product description",
-            "example": "A high-quality widget for all your needs"
+            "description": "Article name"
           },
           "price": {
             "type": "number",
-            "description": "Product price in USD",
-            "example": 29.99
+            "minimum": 0,
+            "description": "Article price"
           },
-          "stock": {
-            "type": "integer",
-            "description": "Available stock quantity",
-            "example": 100
-          },
-          "category": {
-            "type": "string",
-            "description": "Product category",
-            "example": "electronics",
-            "enum": [
-              "electronics",
-              "clothing",
-              "food",
-              "books",
-              "other"
-            ]
-          },
-          "tags": {
-            "type": "array",
-            "description": "Product tags",
-            "example": [
-              "featured",
-              "sale",
-              "new"
+          "unitId": {
+            "type": [
+              "string",
+              "null"
             ],
-            "items": {
-              "type": "string"
-            }
+            "description": "Foreign key reference to Unit"
           },
-          "inStock": {
-            "type": "boolean",
-            "description": "Whether product is in stock",
-            "example": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Product creation timestamp"
+          "unit": {
+            "$ref": "#/components/schemas/Unit",
+            "description": "The complete unit object",
+            "readOnly": true
           }
         },
         "required": [
-          "id",
-          "name",
-          "price",
-          "stock",
-          "category",
-          "inStock",
-          "createdAt"
+          "id"
         ]
       },
-      "productInput": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Product name",
-            "example": "Premium Widget"
-          },
-          "description": {
-            "type": "string",
-            "description": "Product description",
-            "example": "A high-quality widget for all your needs"
-          },
-          "price": {
-            "type": "number",
-            "description": "Product price in USD",
-            "example": 29.99
-          },
-          "stock": {
-            "type": "integer",
-            "description": "Available stock quantity",
-            "example": 100
-          },
-          "category": {
-            "type": "string",
-            "description": "Product category",
-            "example": "electronics",
-            "enum": [
-              "electronics",
-              "clothing",
-              "food",
-              "books",
-              "other"
-            ]
-          },
-          "tags": {
-            "type": "array",
-            "description": "Product tags",
-            "example": [
-              "featured",
-              "sale",
-              "new"
-            ],
-            "items": {
-              "type": "string"
-            }
-          },
-          "inStock": {
-            "type": "boolean",
-            "description": "Whether product is in stock",
-            "example": true
-          }
-        },
-        "required": [
-          "name",
-          "price",
-          "stock",
-          "category",
-          "inStock"
-        ]
-      },
-      "order": {
+      "Customer": {
+        "title": "Customer",
+        "x-plural": "Customers",
+        "x-camel": "customer",
+        "x-camel-plural": "customers",
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid",
-            "description": "Order ID"
+            "description": "Unique identifier for the customer",
+            "readOnly": true
           },
-          "userId": {
+          "firstName": {
             "type": "string",
-            "format": "uuid",
-            "description": "ID of the user who placed the order"
-          },
-          "productIds": {
-            "type": "array",
-            "description": "Array of product IDs in this order",
-            "items": {
-              "type": "string"
-            }
-          },
-          "totalAmount": {
-            "type": "number",
-            "description": "Total order amount",
-            "example": 149.97
-          },
-          "status": {
+            "description": "Customer's first name"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Order": {
+        "title": "Order",
+        "x-plural": "Orders",
+        "x-camel": "order",
+        "x-camel-plural": "orders",
+        "type": "object",
+        "properties": {
+          "id": {
             "type": "string",
-            "description": "Order status",
-            "example": "pending",
-            "enum": [
-              "pending",
-              "processing",
-              "shipped",
-              "delivered",
-              "cancelled"
-            ]
+            "description": "Unique identifier for the order",
+            "readOnly": true
           },
-          "shippingAddress": {
-            "type": "object",
-            "description": "Shipping address details"
+          "customerId": {
+            "type": "string",
+            "description": "Foreign key reference to Customer"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/Customer",
+            "description": "The complete customer object",
+            "readOnly": true
           },
           "orderDate": {
             "type": "string",
             "format": "date-time",
-            "description": "Order placement date"
+            "description": "Date and time when the order was placed"
+          },
+          "totalAmount": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Total order amount",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "OrderItem": {
+        "title": "OrderItem",
+        "x-plural": "OrderItems",
+        "x-camel": "orderItem",
+        "x-camel-plural": "orderItems",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the order item",
+            "readOnly": true
+          },
+          "orderId": {
+            "type": "string",
+            "description": "Foreign key reference to Order"
+          },
+          "order": {
+            "$ref": "#/components/schemas/Order",
+            "description": "The complete order object",
+            "readOnly": true
+          },
+          "articleId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Foreign key reference to Article"
+          },
+          "article": {
+            "$ref": "#/components/schemas/Article",
+            "description": "The complete article object",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "description": "Item name (copied from article, can be overridden)"
+          },
+          "price": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "description": "Price per unit (copied from article, can be overridden)"
+          },
+          "unitId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Foreign key reference to Unit (copied from article, can be overridden)"
+          },
+          "unit": {
+            "$ref": "#/components/schemas/Unit",
+            "description": "The complete unit object",
+            "readOnly": true
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Quantity ordered"
           }
         },
         "required": [
           "id",
-          "userId",
-          "productIds",
-          "totalAmount",
-          "status",
-          "shippingAddress",
-          "orderDate"
+          "orderId"
         ]
       },
-      "orderInput": {
+      "Unit": {
+        "title": "Unit",
+        "x-plural": "Units",
+        "x-camel": "unit",
+        "x-camel-plural": "units",
         "type": "object",
         "properties": {
-          "userId": {
+          "id": {
             "type": "string",
-            "format": "uuid",
-            "description": "ID of the user who placed the order"
+            "description": "Unique identifier for the unit",
+            "readOnly": true
           },
-          "productIds": {
-            "type": "array",
-            "description": "Array of product IDs in this order",
-            "items": {
-              "type": "string"
-            }
-          },
-          "totalAmount": {
-            "type": "number",
-            "description": "Total order amount",
-            "example": 149.97
-          },
-          "status": {
+          "unitNumber": {
             "type": "string",
-            "description": "Order status",
-            "example": "pending",
-            "enum": [
-              "pending",
-              "processing",
-              "shipped",
-              "delivered",
-              "cancelled"
-            ]
-          },
-          "shippingAddress": {
-            "type": "object",
-            "description": "Shipping address details"
+            "description": "Unit number or name"
           }
         },
         "required": [
-          "userId",
-          "productIds",
-          "totalAmount",
-          "status",
-          "shippingAddress"
+          "id"
         ]
       }
     },
