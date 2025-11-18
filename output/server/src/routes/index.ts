@@ -4,16 +4,16 @@
  */
 
 import { Express } from 'express';
-import { articlesRouter } from './articles';
-import { customersRouter } from './customers';
-import { ordersRouter } from './orders';
-import { orderItemsRouter } from './orderItems';
-import { unitsRouter } from './units';
+import { articleRoutes } from './article/articleRoutes';
+import { customerRoutes } from './customer/customerRoutes';
+import { orderRoutes } from './order/orderRoutes';
+import { orderItemRoutes } from './orderItem/orderItemRoutes';
+import { unitRoutes } from './unit/unitRoutes';
 
 export function registerRoutes(app: Express): void {
-  app.use('/articles', articlesRouter);
-  app.use('/customers', customersRouter);
-  app.use('/orders', ordersRouter);
-  app.use('/orderItems', orderItemsRouter);
-  app.use('/units', unitsRouter);
+  app.use('/articles', articleRoutes);
+  app.use('/customers', customerRoutes);
+  app.use('/orders', orderRoutes);
+  app.use('/orderItems', orderItemRoutes);
+  app.use('/units', unitRoutes);
 }
