@@ -4,7 +4,7 @@
  * Future: PostgreSQL integration
  */
 
-import { Unit } from '../../types';
+import type { Unit } from '../../types/index.ts';
 
 // In-memory data store with example data
 let units: Unit[] = [

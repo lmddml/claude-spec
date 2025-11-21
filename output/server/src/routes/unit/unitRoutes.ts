@@ -4,8 +4,8 @@
  * Future: Zod validation
  */
 
-import { Router, Request, Response } from 'express';
-import * as unitService from './unitService';
+import { Router, type Request, type Response } from 'express';
+import * as unitService from './unitService.ts';
 
 const router = Router();
 

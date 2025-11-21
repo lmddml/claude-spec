@@ -4,7 +4,7 @@
  * Future: PostgreSQL integration
  */
 
-import { Article } from '../../types';
+import type { Article } from '../../types/index.ts';
 
 // In-memory data store with example data
 let articles: Article[] = [

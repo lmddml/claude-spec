@@ -4,7 +4,7 @@
  * Future: PostgreSQL integration
  */
 
-import { OrderItem } from '../../types';
+import type { OrderItem } from '../../types/index.ts';
 
 // In-memory data store with example data
 let orderItems: OrderItem[] = [

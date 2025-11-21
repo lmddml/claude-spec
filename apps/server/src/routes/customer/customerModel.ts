@@ -4,7 +4,7 @@
  * Future: PostgreSQL integration
  */
 
-import { Customer } from '../../types';
+import type { Customer } from '../../types/index.ts';
 
 // In-memory data store with example data
 let customers: Customer[] = [

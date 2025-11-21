@@ -4,8 +4,8 @@
  * Future: Complex business logic, cross-entity operations
  */
 
-import { OrderItem } from '../../types';
-import * as orderItemModel from './orderItemModel';
+import type { OrderItem } from '../../types/index.ts';
+import * as orderItemModel from './orderItemModel.ts';
 
 export interface PaginatedResult<T> {
   data: T[];

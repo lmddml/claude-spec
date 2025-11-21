@@ -4,8 +4,8 @@
  * Future: Complex business logic, cross-entity operations
  */
 
-import { Unit } from '../../types';
-import * as unitModel from './unitModel';
+import type { Unit } from '../../types/index.ts';
+import * as unitModel from './unitModel.ts';
 
 export interface PaginatedResult<T> {
   data: T[];
