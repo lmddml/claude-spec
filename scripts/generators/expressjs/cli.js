@@ -16,16 +16,16 @@ function showHelp() {
 Express.js CRUD Generator
 
 Usage:
-  node generators/expressjs/cli.js [options]
+  node scripts/generators/expressjs/cli.js [options]
 
 Options:
   -c, --config <path>   Path to configuration file (JS or JSON)
-  -o, --output <path>   Output directory (default: ./output/server)
+  -o, --output <path>   Output directory (default: ./apps/server)
   -h, --help            Show this help message
 
 Examples:
-  node generators/expressjs/cli.js -c examples/configs/expressjs.config.js
-  node generators/expressjs/cli.js -c config.json -o ./my-server
+  node scripts/generators/expressjs/cli.js -c examples/configs/expressjs.config.js
+  node scripts/generators/expressjs/cli.js -c config.json -o ./my-server
 `);
 }
 
@@ -38,7 +38,7 @@ async function main() {
   }
 
   let configPath = null;
-  let outputDir = path.join(__dirname, '..', '..', 'output', 'server');
+  let outputDir = path.join(__dirname, '..', '..', '..', 'apps', 'server');
 
   // Parse arguments
   for (let i = 0; i < args.length; i++) {

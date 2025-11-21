@@ -2,15 +2,15 @@
   "name": "claude-spec",
   "version": "1.0.0",
   "description": "Code generators for API specifications and servers",
-  "main": "generators/openapi/index.js",
+  "main": "scripts/generators/openapi/index.js",
   "type": "module",
   "bin": {
-    "openapi-gen": "./generators/openapi/cli.js",
-    "expressjs-gen": "./generators/expressjs/cli.js"
+    "openapi-gen": "./scripts/generators/openapi/cli.js",
+    "expressjs-gen": "./scripts/generators/expressjs/cli.js"
   },
   "scripts": {
-    "generate:openapi": "node generators/openapi/cli.js -c examples/configs/openapi.config.js -o output/specs/openapi.json",
-    "generate:expressjs": "node generators/expressjs/cli.js -c examples/configs/expressjs.config.js -o output/server",
+    "generate:openapi": "node scripts/generators/openapi/cli.js -c examples/configs/openapi.config.js -o docs/openapi.json",
+    "generate:expressjs": "node scripts/generators/expressjs/cli.js -c examples/configs/expressjs.config.js -o apps/server",
     "generate:all": "npm run generate:openapi && npm run generate:expressjs",
     "example:openapi": "node examples/generate-example.js",
     "validate": "node scripts/validate.js"

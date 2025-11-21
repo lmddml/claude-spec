@@ -5,6 +5,7 @@
 import { generateExpress, loadSchemas } from './generator.js';
 import fs from 'fs';
 import path from 'path';
+import { pathToFileURL } from 'url';
 
 /**
  * Generate Express.js server and save to output directory
@@ -48,7 +49,8 @@ export async function loadConfig(configPath) {
     const content = fs.readFileSync(configPath, 'utf-8');
     return JSON.parse(content);
   } else if (ext === '.js') {
-    const module = await import(configPath);
+    const fileUrl = pathToFileURL(configPath).href;
+    const module = await import(fileUrl);
     return module.default;
   } else {
     throw new Error(`Unsupported config format: ${ext}`);

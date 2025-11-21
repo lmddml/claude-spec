@@ -538,11 +538,9 @@ export async function generateExpress(config) {
     }
   }
 
-  // Generate package.json
-  files['package.json'] = JSON.stringify(generatePackageJson(config), null, 2);
-
-  // Generate tsconfig.json
-  files['tsconfig.json'] = JSON.stringify(generateTsConfig(), null, 2);
+  // Skip package.json and tsconfig.json generation as requested
+  // files['package.json'] = JSON.stringify(generatePackageJson(config), null, 2);
+  // files['tsconfig.json'] = JSON.stringify(generateTsConfig(), null, 2);
 
   return files;
 }

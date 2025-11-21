@@ -42,16 +42,16 @@ function printHelp() {
   console.log(`
 OpenAPI CRUD Generator
 
-Usage: openapi-crud-gen [options] <config-file>
+Usage: node scripts/generators/openapi/cli.js [options] <config-file>
 
 Options:
   -c, --config <file>   Configuration file (required)
-  -o, --output <file>   Output file path (default: output/openapi.json)
+  -o, --output <file>   Output file path (default: docs/openapi.json)
   -h, --help           Show this help message
 
 Examples:
-  openapi-crud-gen config.js
-  openapi-crud-gen -c config.js -o api-spec.json
+  node scripts/generators/openapi/cli.js config.js
+  node scripts/generators/openapi/cli.js -c config.js -o api-spec.json
   `);
 }
 
@@ -70,7 +70,7 @@ async function main() {
 
     // Default output path
     if (!options.output) {
-      options.output = path.join(process.cwd(), 'output', 'specs', 'openapi.json');
+      options.output = path.join(process.cwd(), 'docs', 'openapi.json');
     }
 
     console.log('Loading configuration...');
