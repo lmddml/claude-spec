@@ -8,7 +8,6 @@
     "node": ">=25"
   },
   "scripts": {
-    "build": "tsc",
     "start": "node src/app.ts",
     "dev": "node --watch src/app.ts",
     "typecheck": "tsc --noEmit"
