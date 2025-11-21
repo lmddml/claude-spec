@@ -36,7 +36,7 @@ router.post('/', (req: Request, res: Response) => {
  * Get a unit by ID
  */
 router.get('/:id', (req: Request, res: Response) => {
-  const unit = unitService.getById(req.params.id);
+  const unit = unitService.getById(req.params.id as string);
 
   if (!unit) {
     return res.status(404).json({
@@ -54,7 +54,7 @@ router.get('/:id', (req: Request, res: Response) => {
  */
 router.put('/:id', (req: Request, res: Response) => {
   // Future: Add Zod validation here
-  const updatedUnit = unitService.update(req.params.id, req.body);
+  const updatedUnit = unitService.update(req.params.id as string, req.body);
 
   if (!updatedUnit) {
     return res.status(404).json({
@@ -71,7 +71,7 @@ router.put('/:id', (req: Request, res: Response) => {
  * Delete a unit
  */
 router.delete('/:id', (req: Request, res: Response) => {
-  const deleted = unitService.remove(req.params.id);
+  const deleted = unitService.remove(req.params.id as string);
 
   if (!deleted) {
     return res.status(404).json({

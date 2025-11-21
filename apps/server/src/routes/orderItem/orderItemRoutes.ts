@@ -36,7 +36,7 @@ router.post('/', (req: Request, res: Response) => {
  * Get a orderItem by ID
  */
 router.get('/:id', (req: Request, res: Response) => {
-  const orderItem = orderItemService.getById(req.params.id);
+  const orderItem = orderItemService.getById(req.params.id as string);
 
   if (!orderItem) {
     return res.status(404).json({
@@ -54,7 +54,7 @@ router.get('/:id', (req: Request, res: Response) => {
  */
 router.put('/:id', (req: Request, res: Response) => {
   // Future: Add Zod validation here
-  const updatedOrderItem = orderItemService.update(req.params.id, req.body);
+  const updatedOrderItem = orderItemService.update(req.params.id as string, req.body);
 
   if (!updatedOrderItem) {
     return res.status(404).json({
@@ -71,7 +71,7 @@ router.put('/:id', (req: Request, res: Response) => {
  * Delete a orderItem
  */
 router.delete('/:id', (req: Request, res: Response) => {
-  const deleted = orderItemService.remove(req.params.id);
+  const deleted = orderItemService.remove(req.params.id as string);
 
   if (!deleted) {
     return res.status(404).json({

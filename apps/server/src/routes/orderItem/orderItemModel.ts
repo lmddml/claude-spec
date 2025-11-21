@@ -126,7 +126,7 @@ export function update(id: string, data: Partial<OrderItem>): OrderItem | undefi
     ...orderItems[index],
     ...data,
     id // Ensure ID cannot be changed
-  };
+  } as OrderItem;
 
   orderItems[index] = updatedOrderItem;
   return updatedOrderItem;

@@ -102,7 +102,7 @@ export function update(id: string, data: Partial<Order>): Order | undefined {
     ...orders[index],
     ...data,
     id // Ensure ID cannot be changed
-  };
+  } as Order;
 
   orders[index] = updatedOrder;
   return updatedOrder;

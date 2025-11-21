@@ -74,7 +74,7 @@ export function update(id: string, data: Partial<Unit>): Unit | undefined {
     ...units[index],
     ...data,
     id // Ensure ID cannot be changed
-  };
+  } as Unit;
 
   units[index] = updatedUnit;
   return updatedUnit;

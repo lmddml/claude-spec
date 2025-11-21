@@ -230,7 +230,7 @@ export function update(id: string, data: Partial<${title}>): ${title} | undefine
     ...${camelPlural}[index],
     ...data,
     id // Ensure ID cannot be changed
-  };
+  } as ${title};
 
   ${camelPlural}[index] = updated${title};
   return updated${title};
@@ -382,7 +382,7 @@ router.post('/', (req: Request, res: Response) => {
  * Get a ${camel} by ID
  */
 router.get('/:id', (req: Request, res: Response) => {
-  const ${camel} = ${camel}Service.getById(req.params.id);
+  const ${camel} = ${camel}Service.getById(req.params.id as string);
 
   if (!${camel}) {
     return res.status(404).json({
@@ -400,7 +400,7 @@ router.get('/:id', (req: Request, res: Response) => {
  */
 router.put('/:id', (req: Request, res: Response) => {
   // Future: Add Zod validation here
-  const updated${title} = ${camel}Service.update(req.params.id, req.body);
+  const updated${title} = ${camel}Service.update(req.params.id as string, req.body);
 
   if (!updated${title}) {
     return res.status(404).json({
@@ -417,7 +417,7 @@ router.put('/:id', (req: Request, res: Response) => {
  * Delete a ${camel}
  */
 router.delete('/:id', (req: Request, res: Response) => {
-  const deleted = ${camel}Service.remove(req.params.id);
+  const deleted = ${camel}Service.remove(req.params.id as string);
 
   if (!deleted) {
     return res.status(404).json({
@@ -464,7 +464,8 @@ function generatePackageJson(config) {
     scripts: {
       build: 'tsc',
       start: 'node src/app.ts',
-      dev: 'node --watch src/app.ts'
+      dev: 'node --watch src/app.ts',
+      typecheck: 'tsc --noEmit'
     },
     dependencies: {
       express: '^5.0.0'

@@ -78,7 +78,7 @@ export function update(id: string, data: Partial<Customer>): Customer | undefine
     ...customers[index],
     ...data,
     id // Ensure ID cannot be changed
-  };
+  } as Customer;
 
   customers[index] = updatedCustomer;
   return updatedCustomer;

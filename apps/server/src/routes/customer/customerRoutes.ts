@@ -36,7 +36,7 @@ router.post('/', (req: Request, res: Response) => {
  * Get a customer by ID
  */
 router.get('/:id', (req: Request, res: Response) => {
-  const customer = customerService.getById(req.params.id);
+  const customer = customerService.getById(req.params.id as string);
 
   if (!customer) {
     return res.status(404).json({
@@ -54,7 +54,7 @@ router.get('/:id', (req: Request, res: Response) => {
  */
 router.put('/:id', (req: Request, res: Response) => {
   // Future: Add Zod validation here
-  const updatedCustomer = customerService.update(req.params.id, req.body);
+  const updatedCustomer = customerService.update(req.params.id as string, req.body);
 
   if (!updatedCustomer) {
     return res.status(404).json({
@@ -71,7 +71,7 @@ router.put('/:id', (req: Request, res: Response) => {
  * Delete a customer
  */
 router.delete('/:id', (req: Request, res: Response) => {
-  const deleted = customerService.remove(req.params.id);
+  const deleted = customerService.remove(req.params.id as string);
 
   if (!deleted) {
     return res.status(404).json({

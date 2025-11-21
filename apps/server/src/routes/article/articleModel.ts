@@ -96,7 +96,7 @@ export function update(id: string, data: Partial<Article>): Article | undefined 
     ...articles[index],
     ...data,
     id // Ensure ID cannot be changed
-  };
+  } as Article;
 
   articles[index] = updatedArticle;
   return updatedArticle;
