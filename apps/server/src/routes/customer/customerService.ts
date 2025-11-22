@@ -4,7 +4,7 @@
  * Future: Complex business logic, cross-entity operations
  */
 
-import type { Customer } from '../../types/index.ts';
+import type { Customer, CustomerPopulated } from '../../types/index.ts';
 import * as customerModel from './customerModel.ts';
 
 export interface PaginatedResult<T> {
@@ -17,7 +17,7 @@ export interface PaginatedResult<T> {
 /**
  * List customers with pagination
  */
-export function list(page: number = 1, limit: number = 10): PaginatedResult<Customer> {
+export function list(page: number, limit: number): PaginatedResult<CustomerPopulated> {
   const allCustomers = customerModel.findAll();
   const offset = (page - 1) * limit;
   const paginatedData = allCustomers.slice(offset, offset + limit);
@@ -33,14 +33,14 @@ export function list(page: number = 1, limit: number = 10): PaginatedResult<Cust
 /**
  * Get customer by ID
  */
-export function getById(id: string): Customer | undefined {
+export function getById(id: string): CustomerPopulated | undefined {
   return customerModel.findById(id);
 }
 
 /**
  * Create a new customer
  */
-export function create(data: Partial<Customer>): Customer {
+export function create(data: Partial<Customer>): CustomerPopulated {
   // Future: Add business logic validation here
   return customerModel.create(data);
 }
@@ -48,7 +48,7 @@ export function create(data: Partial<Customer>): Customer {
 /**
  * Update a customer
  */
-export function update(id: string, data: Partial<Customer>): Customer | undefined {
+export function update(id: string, data: Partial<Customer>): CustomerPopulated | undefined {
   // Future: Add business logic validation here
   return customerModel.update(id, data);
 }

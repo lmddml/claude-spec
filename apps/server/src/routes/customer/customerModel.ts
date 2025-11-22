@@ -4,10 +4,10 @@
  * Future: PostgreSQL integration
  */
 
-import type { Customer } from '../../types/index.ts';
+import type { Customer, CustomerPopulated } from '../../types/index.ts';
 
 // In-memory data store with example data
-let customers: Customer[] = [
+let customers: CustomerPopulated[] = [
   {
     "id": "cust-001",
     "firstName": "John",
@@ -40,25 +40,25 @@ const generateId = (): string => `customer-${String(customers.length + 1).padSta
 /**
  * Get all customers
  */
-export function findAll(): Customer[] {
+export function findAll(): CustomerPopulated[] {
   return customers;
 }
 
 /**
  * Get customer by ID
  */
-export function findById(id: string): Customer | undefined {
+export function findById(id: string): CustomerPopulated | undefined {
   return customers.find(item => item.id === id);
 }
 
 /**
  * Create a new customer
  */
-export function create(data: Partial<Customer>): Customer {
-  const newCustomer: Customer = {
+export function create(data: Partial<Customer>): CustomerPopulated {
+  const newCustomer: CustomerPopulated = {
     id: generateId(),
     ...data,
-  } as Customer;
+  } as CustomerPopulated;
 
   customers.push(newCustomer);
   return newCustomer;
@@ -67,18 +67,18 @@ export function create(data: Partial<Customer>): Customer {
 /**
  * Update a customer
  */
-export function update(id: string, data: Partial<Customer>): Customer | undefined {
+export function update(id: string, data: Partial<Customer>): CustomerPopulated | undefined {
   const index = customers.findIndex(item => item.id === id);
 
   if (index === -1) {
     return undefined;
   }
 
-  const updatedCustomer: Customer = {
+  const updatedCustomer: CustomerPopulated = {
     ...customers[index],
     ...data,
     id // Ensure ID cannot be changed
-  } as Customer;
+  } as CustomerPopulated;
 
   customers[index] = updatedCustomer;
   return updatedCustomer;

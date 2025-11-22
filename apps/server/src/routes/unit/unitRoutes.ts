@@ -1,11 +1,14 @@
 /**
  * Unit Routes
  * Express endpoints - handles HTTP requests
- * Future: Zod validation
+ * Zod validation enabled
  */
 
 import { Router, type Request, type Response } from 'express';
+import { z } from 'zod';
 import * as unitService from './unitService.ts';
+import { unitSchema } from './unitSchema.ts';
+import { paginationSchema, idParamsSchema } from '../../common/validation.ts';
 
 const router = Router();
 
@@ -14,11 +17,17 @@ const router = Router();
  * List all units with pagination
  */
 router.get('/', (req: Request, res: Response) => {
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
-
-  const result = unitService.list(page, limit);
-  res.json(result);
+  try {
+    const { page, limit } = paginationSchema.parse(req.query);
+    const result = unitService.list(page, limit);
+    res.json(result);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
+  }
 });
 
 /**
@@ -26,9 +35,17 @@ router.get('/', (req: Request, res: Response) => {
  * Create a new unit
  */
 router.post('/', (req: Request, res: Response) => {
-  // Future: Add Zod validation here
-  const newUnit = unitService.create(req.body);
-  res.status(201).json(newUnit);
+  try {
+    const validatedData = unitSchema.parse(req.body);
+    const newUnit = unitService.create(validatedData);
+    res.status(201).json(newUnit);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
+  }
 });
 
 /**
@@ -36,16 +53,25 @@ router.post('/', (req: Request, res: Response) => {
  * Get a unit by ID
  */
 router.get('/:id', (req: Request, res: Response) => {
-  const unit = unitService.getById(req.params.id as string);
+  try {
+    const { id } = idParamsSchema.parse(req.params);
+    const unit = unitService.getById(id);
 
-  if (!unit) {
-    return res.status(404).json({
-      error: 'Not Found',
-      message: `Unit with id '${req.params.id}' not found`
-    });
+    if (!unit) {
+      return res.status(404).json({
+        error: 'Not Found',
+        message: `Unit with id '${id}' not found`
+      });
+    }
+
+    res.json(unit);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
   }
-
-  res.json(unit);
 });
 
 /**
@@ -53,17 +79,27 @@ router.get('/:id', (req: Request, res: Response) => {
  * Update a unit
  */
 router.put('/:id', (req: Request, res: Response) => {
-  // Future: Add Zod validation here
-  const updatedUnit = unitService.update(req.params.id as string, req.body);
+  try {
+    const { id } = idParamsSchema.parse(req.params);
+    const validatedData = unitSchema.partial().parse(req.body);
+    
+    const updatedUnit = unitService.update(id, validatedData);
 
-  if (!updatedUnit) {
-    return res.status(404).json({
-      error: 'Not Found',
-      message: `Unit with id '${req.params.id}' not found`
-    });
+    if (!updatedUnit) {
+      return res.status(404).json({
+        error: 'Not Found',
+        message: `Unit with id '${id}' not found`
+      });
+    }
+
+    res.json(updatedUnit);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
   }
-
-  res.json(updatedUnit);
 });
 
 /**
@@ -71,16 +107,25 @@ router.put('/:id', (req: Request, res: Response) => {
  * Delete a unit
  */
 router.delete('/:id', (req: Request, res: Response) => {
-  const deleted = unitService.remove(req.params.id as string);
+  try {
+    const { id } = idParamsSchema.parse(req.params);
+    const deleted = unitService.remove(id);
 
-  if (!deleted) {
-    return res.status(404).json({
-      error: 'Not Found',
-      message: `Unit with id '${req.params.id}' not found`
-    });
+    if (!deleted) {
+      return res.status(404).json({
+        error: 'Not Found',
+        message: `Unit with id '${id}' not found`
+      });
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
   }
-
-  res.status(204).send();
 });
 
 export { router as unitRoutes };

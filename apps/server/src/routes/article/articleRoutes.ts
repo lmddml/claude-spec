@@ -1,11 +1,14 @@
 /**
  * Article Routes
  * Express endpoints - handles HTTP requests
- * Future: Zod validation
+ * Zod validation enabled
  */
 
 import { Router, type Request, type Response } from 'express';
+import { z } from 'zod';
 import * as articleService from './articleService.ts';
+import { articleSchema } from './articleSchema.ts';
+import { paginationSchema, idParamsSchema } from '../../common/validation.ts';
 
 const router = Router();
 
@@ -14,11 +17,17 @@ const router = Router();
  * List all articles with pagination
  */
 router.get('/', (req: Request, res: Response) => {
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
-
-  const result = articleService.list(page, limit);
-  res.json(result);
+  try {
+    const { page, limit } = paginationSchema.parse(req.query);
+    const result = articleService.list(page, limit);
+    res.json(result);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
+  }
 });
 
 /**
@@ -26,9 +35,17 @@ router.get('/', (req: Request, res: Response) => {
  * Create a new article
  */
 router.post('/', (req: Request, res: Response) => {
-  // Future: Add Zod validation here
-  const newArticle = articleService.create(req.body);
-  res.status(201).json(newArticle);
+  try {
+    const validatedData = articleSchema.parse(req.body);
+    const newArticle = articleService.create(validatedData);
+    res.status(201).json(newArticle);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
+  }
 });
 
 /**
@@ -36,16 +53,25 @@ router.post('/', (req: Request, res: Response) => {
  * Get a article by ID
  */
 router.get('/:id', (req: Request, res: Response) => {
-  const article = articleService.getById(req.params.id as string);
+  try {
+    const { id } = idParamsSchema.parse(req.params);
+    const article = articleService.getById(id);
 
-  if (!article) {
-    return res.status(404).json({
-      error: 'Not Found',
-      message: `Article with id '${req.params.id}' not found`
-    });
+    if (!article) {
+      return res.status(404).json({
+        error: 'Not Found',
+        message: `Article with id '${id}' not found`
+      });
+    }
+
+    res.json(article);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
   }
-
-  res.json(article);
 });
 
 /**
@@ -53,17 +79,27 @@ router.get('/:id', (req: Request, res: Response) => {
  * Update a article
  */
 router.put('/:id', (req: Request, res: Response) => {
-  // Future: Add Zod validation here
-  const updatedArticle = articleService.update(req.params.id as string, req.body);
+  try {
+    const { id } = idParamsSchema.parse(req.params);
+    const validatedData = articleSchema.partial().parse(req.body);
+    
+    const updatedArticle = articleService.update(id, validatedData);
 
-  if (!updatedArticle) {
-    return res.status(404).json({
-      error: 'Not Found',
-      message: `Article with id '${req.params.id}' not found`
-    });
+    if (!updatedArticle) {
+      return res.status(404).json({
+        error: 'Not Found',
+        message: `Article with id '${id}' not found`
+      });
+    }
+
+    res.json(updatedArticle);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
   }
-
-  res.json(updatedArticle);
 });
 
 /**
@@ -71,16 +107,25 @@ router.put('/:id', (req: Request, res: Response) => {
  * Delete a article
  */
 router.delete('/:id', (req: Request, res: Response) => {
-  const deleted = articleService.remove(req.params.id as string);
+  try {
+    const { id } = idParamsSchema.parse(req.params);
+    const deleted = articleService.remove(id);
 
-  if (!deleted) {
-    return res.status(404).json({
-      error: 'Not Found',
-      message: `Article with id '${req.params.id}' not found`
-    });
+    if (!deleted) {
+      return res.status(404).json({
+        error: 'Not Found',
+        message: `Article with id '${id}' not found`
+      });
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
   }
-
-  res.status(204).send();
 });
 
 export { router as articleRoutes };

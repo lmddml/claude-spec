@@ -5,50 +5,67 @@
 
 export interface Article {
   id?: string;
-  name: string;
-  description: string;
-  price: number;
-  unitId: string | null;
+  name?: string;
+  description?: string;
+  price?: number;
+  unitId?: string | null;
+  sku?: string;
+  inStock?: boolean;
+}
+
+export interface ArticlePopulated extends Article {
   unit?: Unit;
-  sku: string;
-  inStock: boolean;
 }
 
 export interface Customer {
   id?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
   createdAt?: string;
+}
+
+export interface CustomerPopulated extends Customer {
+
 }
 
 export interface Order {
   id?: string;
-  customerId: string;
-  customer?: Customer;
-  orderDate: string;
-  status: string;
+  customerId?: string;
+  orderDate?: string;
+  status?: string;
   totalAmount?: number;
-  shippingAddress: string;
+  shippingAddress?: string;
+}
+
+export interface OrderPopulated extends Order {
+  customer?: Customer;
 }
 
 export interface OrderItem {
   id?: string;
   orderId: string;
-  order?: Order;
-  articleId: string | null;
-  article?: Article;
-  name: string;
-  price: number | null;
-  unitId: string | null;
-  unit?: Unit;
-  quantity: number;
+  articleId?: string | null;
+  name?: string;
+  price?: number | null;
+  unitId?: string | null;
+  quantity?: number;
   lineTotal?: number;
+}
+
+export interface OrderItemPopulated extends OrderItem {
+  order?: Order;
+  article?: Article;
+  unit?: Unit;
 }
 
 export interface Unit {
   id?: string;
-  unitNumber: string;
-  description: string;
+  unitNumber?: string;
+  description?: string;
+}
+
+export interface UnitPopulated extends Unit {
+
 }

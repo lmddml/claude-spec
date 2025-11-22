@@ -4,10 +4,10 @@
  * Future: PostgreSQL integration
  */
 
-import type { Order } from '../../types/index.ts';
+import type { Order, OrderPopulated } from '../../types/index.ts';
 
 // In-memory data store with example data
-let orders: Order[] = [
+let orders: OrderPopulated[] = [
   {
     "id": "ord-001",
     "customerId": "cust-001",
@@ -64,25 +64,25 @@ const generateId = (): string => `order-${String(orders.length + 1).padStart(3, 
 /**
  * Get all orders
  */
-export function findAll(): Order[] {
+export function findAll(): OrderPopulated[] {
   return orders;
 }
 
 /**
  * Get order by ID
  */
-export function findById(id: string): Order | undefined {
+export function findById(id: string): OrderPopulated | undefined {
   return orders.find(item => item.id === id);
 }
 
 /**
  * Create a new order
  */
-export function create(data: Partial<Order>): Order {
-  const newOrder: Order = {
+export function create(data: Partial<Order>): OrderPopulated {
+  const newOrder: OrderPopulated = {
     id: generateId(),
     ...data,
-  } as Order;
+  } as OrderPopulated;
 
   orders.push(newOrder);
   return newOrder;
@@ -91,18 +91,18 @@ export function create(data: Partial<Order>): Order {
 /**
  * Update a order
  */
-export function update(id: string, data: Partial<Order>): Order | undefined {
+export function update(id: string, data: Partial<Order>): OrderPopulated | undefined {
   const index = orders.findIndex(item => item.id === id);
 
   if (index === -1) {
     return undefined;
   }
 
-  const updatedOrder: Order = {
+  const updatedOrder: OrderPopulated = {
     ...orders[index],
     ...data,
     id // Ensure ID cannot be changed
-  } as Order;
+  } as OrderPopulated;
 
   orders[index] = updatedOrder;
   return updatedOrder;

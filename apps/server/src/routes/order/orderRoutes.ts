@@ -1,11 +1,14 @@
 /**
  * Order Routes
  * Express endpoints - handles HTTP requests
- * Future: Zod validation
+ * Zod validation enabled
  */
 
 import { Router, type Request, type Response } from 'express';
+import { z } from 'zod';
 import * as orderService from './orderService.ts';
+import { orderSchema } from './orderSchema.ts';
+import { paginationSchema, idParamsSchema } from '../../common/validation.ts';
 
 const router = Router();
 
@@ -14,11 +17,17 @@ const router = Router();
  * List all orders with pagination
  */
 router.get('/', (req: Request, res: Response) => {
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
-
-  const result = orderService.list(page, limit);
-  res.json(result);
+  try {
+    const { page, limit } = paginationSchema.parse(req.query);
+    const result = orderService.list(page, limit);
+    res.json(result);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
+  }
 });
 
 /**
@@ -26,9 +35,17 @@ router.get('/', (req: Request, res: Response) => {
  * Create a new order
  */
 router.post('/', (req: Request, res: Response) => {
-  // Future: Add Zod validation here
-  const newOrder = orderService.create(req.body);
-  res.status(201).json(newOrder);
+  try {
+    const validatedData = orderSchema.parse(req.body);
+    const newOrder = orderService.create(validatedData);
+    res.status(201).json(newOrder);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
+  }
 });
 
 /**
@@ -36,16 +53,25 @@ router.post('/', (req: Request, res: Response) => {
  * Get a order by ID
  */
 router.get('/:id', (req: Request, res: Response) => {
-  const order = orderService.getById(req.params.id as string);
+  try {
+    const { id } = idParamsSchema.parse(req.params);
+    const order = orderService.getById(id);
 
-  if (!order) {
-    return res.status(404).json({
-      error: 'Not Found',
-      message: `Order with id '${req.params.id}' not found`
-    });
+    if (!order) {
+      return res.status(404).json({
+        error: 'Not Found',
+        message: `Order with id '${id}' not found`
+      });
+    }
+
+    res.json(order);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
   }
-
-  res.json(order);
 });
 
 /**
@@ -53,17 +79,27 @@ router.get('/:id', (req: Request, res: Response) => {
  * Update a order
  */
 router.put('/:id', (req: Request, res: Response) => {
-  // Future: Add Zod validation here
-  const updatedOrder = orderService.update(req.params.id as string, req.body);
+  try {
+    const { id } = idParamsSchema.parse(req.params);
+    const validatedData = orderSchema.partial().parse(req.body);
+    
+    const updatedOrder = orderService.update(id, validatedData);
 
-  if (!updatedOrder) {
-    return res.status(404).json({
-      error: 'Not Found',
-      message: `Order with id '${req.params.id}' not found`
-    });
+    if (!updatedOrder) {
+      return res.status(404).json({
+        error: 'Not Found',
+        message: `Order with id '${id}' not found`
+      });
+    }
+
+    res.json(updatedOrder);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
   }
-
-  res.json(updatedOrder);
 });
 
 /**
@@ -71,16 +107,25 @@ router.put('/:id', (req: Request, res: Response) => {
  * Delete a order
  */
 router.delete('/:id', (req: Request, res: Response) => {
-  const deleted = orderService.remove(req.params.id as string);
+  try {
+    const { id } = idParamsSchema.parse(req.params);
+    const deleted = orderService.remove(id);
 
-  if (!deleted) {
-    return res.status(404).json({
-      error: 'Not Found',
-      message: `Order with id '${req.params.id}' not found`
-    });
+    if (!deleted) {
+      return res.status(404).json({
+        error: 'Not Found',
+        message: `Order with id '${id}' not found`
+      });
+    }
+
+    res.status(204).send();
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      res.status(400).json({ error: 'Validation Error', details: error.errors });
+    } else {
+      throw error;
+    }
   }
-
-  res.status(204).send();
 });
 
 export { router as orderRoutes };

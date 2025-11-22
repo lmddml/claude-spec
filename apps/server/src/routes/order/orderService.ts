@@ -4,7 +4,7 @@
  * Future: Complex business logic, cross-entity operations
  */
 
-import type { Order } from '../../types/index.ts';
+import type { Order, OrderPopulated } from '../../types/index.ts';
 import * as orderModel from './orderModel.ts';
 
 export interface PaginatedResult<T> {
@@ -17,7 +17,7 @@ export interface PaginatedResult<T> {
 /**
  * List orders with pagination
  */
-export function list(page: number = 1, limit: number = 10): PaginatedResult<Order> {
+export function list(page: number, limit: number): PaginatedResult<OrderPopulated> {
   const allOrders = orderModel.findAll();
   const offset = (page - 1) * limit;
   const paginatedData = allOrders.slice(offset, offset + limit);
@@ -33,14 +33,14 @@ export function list(page: number = 1, limit: number = 10): PaginatedResult<Orde
 /**
  * Get order by ID
  */
-export function getById(id: string): Order | undefined {
+export function getById(id: string): OrderPopulated | undefined {
   return orderModel.findById(id);
 }
 
 /**
  * Create a new order
  */
-export function create(data: Partial<Order>): Order {
+export function create(data: Partial<Order>): OrderPopulated {
   // Future: Add business logic validation here
   return orderModel.create(data);
 }
@@ -48,7 +48,7 @@ export function create(data: Partial<Order>): Order {
 /**
  * Update a order
  */
-export function update(id: string, data: Partial<Order>): Order | undefined {
+export function update(id: string, data: Partial<Order>): OrderPopulated | undefined {
   // Future: Add business logic validation here
   return orderModel.update(id, data);
 }

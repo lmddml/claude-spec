@@ -4,7 +4,7 @@
  * Future: Complex business logic, cross-entity operations
  */
 
-import type { Unit } from '../../types/index.ts';
+import type { Unit, UnitPopulated } from '../../types/index.ts';
 import * as unitModel from './unitModel.ts';
 
 export interface PaginatedResult<T> {
@@ -17,7 +17,7 @@ export interface PaginatedResult<T> {
 /**
  * List units with pagination
  */
-export function list(page: number = 1, limit: number = 10): PaginatedResult<Unit> {
+export function list(page: number, limit: number): PaginatedResult<UnitPopulated> {
   const allUnits = unitModel.findAll();
   const offset = (page - 1) * limit;
   const paginatedData = allUnits.slice(offset, offset + limit);
@@ -33,14 +33,14 @@ export function list(page: number = 1, limit: number = 10): PaginatedResult<Unit
 /**
  * Get unit by ID
  */
-export function getById(id: string): Unit | undefined {
+export function getById(id: string): UnitPopulated | undefined {
   return unitModel.findById(id);
 }
 
 /**
  * Create a new unit
  */
-export function create(data: Partial<Unit>): Unit {
+export function create(data: Partial<Unit>): UnitPopulated {
   // Future: Add business logic validation here
   return unitModel.create(data);
 }
@@ -48,7 +48,7 @@ export function create(data: Partial<Unit>): Unit {
 /**
  * Update a unit
  */
-export function update(id: string, data: Partial<Unit>): Unit | undefined {
+export function update(id: string, data: Partial<Unit>): UnitPopulated | undefined {
   // Future: Add business logic validation here
   return unitModel.update(id, data);
 }

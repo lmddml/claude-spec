@@ -4,10 +4,10 @@
  * Future: PostgreSQL integration
  */
 
-import type { Article } from '../../types/index.ts';
+import type { Article, ArticlePopulated } from '../../types/index.ts';
 
 // In-memory data store with example data
-let articles: Article[] = [
+let articles: ArticlePopulated[] = [
   {
     "id": "art-001",
     "name": "Wireless Mouse",
@@ -58,25 +58,25 @@ const generateId = (): string => `article-${String(articles.length + 1).padStart
 /**
  * Get all articles
  */
-export function findAll(): Article[] {
+export function findAll(): ArticlePopulated[] {
   return articles;
 }
 
 /**
  * Get article by ID
  */
-export function findById(id: string): Article | undefined {
+export function findById(id: string): ArticlePopulated | undefined {
   return articles.find(item => item.id === id);
 }
 
 /**
  * Create a new article
  */
-export function create(data: Partial<Article>): Article {
-  const newArticle: Article = {
+export function create(data: Partial<Article>): ArticlePopulated {
+  const newArticle: ArticlePopulated = {
     id: generateId(),
     ...data,
-  } as Article;
+  } as ArticlePopulated;
 
   articles.push(newArticle);
   return newArticle;
@@ -85,18 +85,18 @@ export function create(data: Partial<Article>): Article {
 /**
  * Update a article
  */
-export function update(id: string, data: Partial<Article>): Article | undefined {
+export function update(id: string, data: Partial<Article>): ArticlePopulated | undefined {
   const index = articles.findIndex(item => item.id === id);
 
   if (index === -1) {
     return undefined;
   }
 
-  const updatedArticle: Article = {
+  const updatedArticle: ArticlePopulated = {
     ...articles[index],
     ...data,
     id // Ensure ID cannot be changed
-  } as Article;
+  } as ArticlePopulated;
 
   articles[index] = updatedArticle;
   return updatedArticle;
