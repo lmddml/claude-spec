@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: postgres:18-trixie # https://github.com/docker-library/postgres/issues/1356#issuecomment-3189418446
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.postgres-data:/var/lib/postgresql
